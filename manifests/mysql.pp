@@ -66,7 +66,7 @@ class backup::mysql(
   }
 
   cron { 'mysql-backup-all.sh':
-    command => "timeout 3600 /root/mysql-backup-all.sh -d ${backup_dir}",
+    command => "timeout 3600 /root/mysql-backup-all.sh -d ${backup_dir} -t",
     user    => 'root',
     hour    => $cron_hour,
     minute  => $cron_min,
