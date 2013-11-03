@@ -1,6 +1,6 @@
 # == Class: backup::rsync
 #
-# Configure rsync backup client.
+# Configure rsync backup source.
 #
 # Ensures rsync package is installed and drops restricted key into root's
 # authorized_keys file.
