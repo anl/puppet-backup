@@ -1,7 +1,8 @@
 #!/bin/bash
 <% targets.each do |node, dirs| -%>
-
 <% dirs.each do |dir| -%>
-rsync -e "ssh -i <%= ssh_dir %>/backup-rsync.pem" -avz root@<%= node %>:<%= dir %> <%= backup_home %>/<%= node %><%= dir %>
+
+mkdir -p <%= backup_home %>/<%= node %><%= File.dirname(dir).sub(/^\/$/, '') %>
+rsync -e "ssh -i <%= ssh_dir %>/backup-rsync.pem" -avz root@<%= node %>:<%= dir %> <%= backup_home %>/<%= node %><%= File.dirname(dir).sub(/^\/$/, '') %>/.
 <% end -%>
 <% end -%>
