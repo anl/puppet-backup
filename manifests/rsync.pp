@@ -43,11 +43,21 @@ class backup::rsync(
 
   ensure_packages(['rsync'])
 
+  file { '/usr/local/bin/validate-rsync.sh':
+    owner  => 'root',
+    group  => 'root',
+    mode   => '0555',
+    source => 'puppet:///modules/backup/validate-rsync.sh',
+  }
+
   ssh_authorized_key { 'root rsync':
     ensure  => present,
     key     => $ssh_key,
-    options => [ 'command="rsync --server"', 'no-port-forwarding',
-      'no-agent-forwarding', 'no-X11-forwarding', 'no-pty' ],
+    options => [ 'command="/usr/local/bin/validate-rsync.sh"',
+      'no-port-forwarding',
+      'no-agent-forwarding',
+      'no-X11-forwarding',
+      'no-pty' ],
     type    => $ssh_key_type,
     user    => 'root',
   }
