@@ -2,16 +2,14 @@
 
 function log_msgs() {
     # Split messages on newlines, and output to logger:
-    msgs=$1
-    if [ -n $msgs ] ; then
-	old_ifs=$IFS
-	IFS='
+    msgs="$@"
+    old_ifs=$IFS
+    IFS='
 '
-	for line in $msgs; do
-	    logger "${0}: $line"
-	done
-	IFS=$old_ifs
-    fi
+    for line in $msgs; do
+        logger "${0}: $line"
+    done
+    IFS=$old_ifs
 }
 
 logger "${0}: Backup start"
