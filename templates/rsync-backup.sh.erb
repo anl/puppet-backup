@@ -1,8 +1,29 @@
 #!/bin/bash
+
+function log_msgs() {
+    # Split messages on newlines, and output to logger:
+    msgs=$1
+    if [ -n $msgs ] ; then
+	old_ifs=$IFS
+	IFS='
+'
+	for line in $msgs; do
+	    logger "${0}: $line"
+	done
+	IFS=$old_ifs
+    fi
+}
+
+logger "${0}: Backup start"
+
+# Capture stdout and stderr of each rsync session and log when run completes
 <% targets.each do |node, dirs| -%>
 <% dirs.each do |dir| -%>
 
 mkdir -p <%= backup_home %>/<%= node %><%= File.dirname(dir).sub(/^\/$/, '') %>
-rsync -e "ssh -i <%= ssh_dir %>/backup-rsync.pem" -avz root@<%= node %>:<%= dir %> <%= backup_home %>/<%= node %><%= File.dirname(dir).sub(/^\/$/, '') %>/.
+rsync_msgs=$((rsync -e "ssh -i <%= ssh_dir %>/backup-rsync.pem" -avz root@<%= node %>:<%= dir %> <%= backup_home %>/<%= node %><%= File.dirname(dir).sub(/^\/$/, '') %>/.) 2>&1)
+log_msgs $rsync_msgs
 <% end -%>
 <% end -%>
+
+logger "${0}: Backup complete"
