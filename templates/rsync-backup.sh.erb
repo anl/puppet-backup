@@ -15,11 +15,11 @@ function log_msgs() {
 logger "${0}: Backup start"
 
 # Capture stdout and stderr of each rsync session and log when run completes
-<% targets.each do |node, dirs| -%>
+<% @targets.each do |node, dirs| -%>
 <% dirs.each do |dir| -%>
 
-mkdir -p <%= backup_home %>/<%= node %><%= File.dirname(dir).sub(/^\/$/, '') %>
-rsync_msgs=$((rsync -e "ssh -i <%= ssh_dir %>/backup-rsync.pem" -avz root@<%= node %>:<%= dir %> <%= backup_home %>/<%= node %><%= File.dirname(dir).sub(/^\/$/, '') %>/.) 2>&1)
+mkdir -p <%= @backup_home %>/<%= node %><%= File.dirname(dir).sub(/^\/$/, '') %>
+rsync_msgs=$((rsync -e "ssh -i <%= @ssh_dir %>/backup-rsync.pem" -avz root@<%= node %>:<%= dir %> <%= backup_home %>/<%= node %><%= File.dirname(dir).sub(/^\/$/, '') %>/.) 2>&1)
 log_msgs $rsync_msgs
 <% end -%>
 <% end -%>
