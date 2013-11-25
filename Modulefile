@@ -1,5 +1,5 @@
 name    'anl-backup'
-version '0.1.5'
+version '0.1.6'
 source 'https://github.com/anl/puppet-backup.git'
 author 'anl'
 license 'Apache License, Version 2.0'
