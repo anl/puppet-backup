@@ -15,7 +15,7 @@ function log_msgs() {
 logger "${0}: Backup start"
 
 # Capture stdout and stderr of each rsync session and log when run completes
-<% @targets.each do |node, dirs| -%>
+<% @targets.sort.each do |node, dirs| -%>
 <% dirs.each do |dir| -%>
 
 mkdir -p <%= @backup_home %>/<%= node %><%= File.dirname(dir).sub(/^\/$/, '') %>
